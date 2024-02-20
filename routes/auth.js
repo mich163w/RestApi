@@ -20,7 +20,7 @@ router.post('/register', async (req, res) => {
     const emailExists = await User.findOne({ email: req.body.email });
 
     if (emailExists) {
-        return res.status(400).json({ error: "Email already exists" });
+        return res.status(400).json({ error: "This E-mail already exists" });
     }
 
     //hash the password
@@ -66,7 +66,7 @@ router.post('/login', async (req, res) => {
     //user exists, now check the password
     const validPassword = await bcrypt.compare(req.body.password, user.password);
 
-    //throw error if password is wrong
+    //throw error if the password is wrong
 
     if (!validPassword) {
         return res.status(400).json({ error: "Password is wrong" });
