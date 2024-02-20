@@ -1,0 +1,4 @@
+// efter redigering, skal nodemon startes op igen for at få adgang til nye ændringer i porten man vælger localhost:XXXX
+// npm run start-dev
+
+//for at tilgå swagger siden localhost:5501/api/docs
