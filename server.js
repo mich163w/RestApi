@@ -9,7 +9,7 @@ const { verifyToken } = require("./validation");
 const swaggerUi = require('swagger-ui-express');
 const yaml = require('yamljs');
 
-//setup swagger
+//setup swagger 
 const swaggerDefinition = yaml.load('./swagger.yaml');
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDefinition));
 
