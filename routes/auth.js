@@ -29,16 +29,16 @@ router.post('/register', async (req, res) => {
     const password = await bcrypt.hash(req.body.password, salt);
 
 
-    //create a user object and save in the database
+    //create a user object and save in the database by using the model
     const userObjects = new User({
         name: req.body.name,
         email: req.body.email,
         password: password
     });
 
-    try {
-        const savedUser = await userObjects.save();
-        res.json({ error: null, data: savedUser._id });
+    try { 
+        const savedUser = await userObjects.save(); //save the user to the database
+        res.json({ error: null, data: savedUser._id }); //201 Created
     } catch (error) {
         res.status(400).json({ error })
     }
@@ -60,7 +60,7 @@ router.post('/login', async (req, res) => {
 
     //throw an error if email is wrong (user does not exist in the database)
     if (!user) {
-        return res.status(400).json({ error: "Email is wrong" });
+        return res.status(400).json({ error: "This e-mail is wrong" });
     }
 
     //user exists, now check the password
@@ -69,7 +69,7 @@ router.post('/login', async (req, res) => {
     //throw error if the password is wrong
 
     if (!validPassword) {
-        return res.status(400).json({ error: "Password is wrong" });
+        return res.status(400).json({ error: "The password is wrong" });
     }
 
     //create authentication token with username and id
