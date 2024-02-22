@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: WINE REST API
+  title: MICHELES WINE REST API
   description: MongoDB ExpressJS NodeJS REST API
   version: 1.0.0
 servers:

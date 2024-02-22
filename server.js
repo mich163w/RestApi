@@ -36,14 +36,14 @@ mongoose.connection.once('open', () => console.log('Connected successfully to Mo
 
 //routes
 app.get("/api/welcome", (req, res) => {
-    res.status(200).send({ message: "Welcome to the REST API" });
+    res.status(200).send({ message: "Welcome to the REST API" }); //200 means OK
 })
 //post, put, delete, get -> CRUD
 app.use("/api/wine", verifyToken ,wineRoutes);
 app.use("/api/user", authRoutes);
 
 // /api/wine/login
-const PORT = process.env.PORT || 5501;
+const PORT = process.env.PORT || 5501; //environment variable PORT or 5501
 
 //starts the server
 app.listen(PORT, function() {

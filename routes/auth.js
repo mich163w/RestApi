@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const { registerValidation, loginValidation } = require("../validation");
-const application = require('express'); //import express
+
 
 // /registration
 router.post('/register', async (req, res) => {
