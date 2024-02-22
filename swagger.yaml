@@ -39,11 +39,11 @@ components:
       properties:
         name:
           type: string
+        username:
+          type: string
         email:
           type: string
         password:
-          type: string
-        date:
           type: string
 
 paths:
@@ -83,7 +83,7 @@ paths:
             schema:
               type: object
               properties:
-                email:
+                username:
                   type: string
                 password:
                   type: string

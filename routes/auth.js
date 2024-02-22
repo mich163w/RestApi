@@ -9,18 +9,18 @@ const { registerValidation, loginValidation } = require("../validation");
 // /registration
 router.post('/register', async (req, res) => {
 
-    //validate the user input(name, email, password)
+    //validate the user input(name, username, email, password)
     const { error } = registerValidation(req.body);
 
     if (error) { //400 Bad Request + json response
         return res.status(400).json({ error: error.details[0].message});
     }
 
-    //check if the email already registered
-    const emailExists = await User.findOne({ email: req.body.email });
+    //check if the username already registered
+    const usernameExists = await User.findOne({ username: req.body.username });
 
-    if (emailExists) {
-        return res.status(400).json({ error: "This E-mail already exists" });
+    if (usernameExists) {
+        return res.status(400).json({ error: "This username already exists" });
     }
 
     //hash the password
@@ -32,6 +32,7 @@ router.post('/register', async (req, res) => {
     //create a user object and save in the database by using the model
     const userObjects = new User({
         name: req.body.name,
+        username: req.body.username,
         email: req.body.email,
         password: password
     });
@@ -56,11 +57,11 @@ router.post('/login', async (req, res) => {
     } // 400 Bad Request
 
     //if login info is valid, find the user
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ username: req.body.username });
 
-    //throw an error if email is wrong (user does not exist in the database)
+    //throw an error if username is wrong (user does not exist in the database)
     if (!user) {
-        return res.status(400).json({ error: "This e-mail is wrong" });
+        return res.status(400).json({ error: "Your username is wrong" });
     }
 
     //user exists, now check the password
