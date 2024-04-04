@@ -1,0 +1,208 @@
+openapi: 3.0.0
+info:
+  title: MICHELES WINE REST API
+  description: MongoDB ExpressJS NodeJS REST API
+  version: 1.0.0
+servers:
+  - url: http://localhost:5501/api/
+    description: Localhost development server 
+  - url: https://restapi-niz7.onrender.com/api/docs/
+    description: Heroku remote server
+components:
+  securitySchemes:
+    ApiKeyAuth:        # arbitrary name for the security scheme
+      type: apiKey
+      in: header       # can be "header", "query" or "cookie"
+      name: auth-token
+
+  schemas:
+    Wine:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        year:
+          type: number
+        country:
+          type: string
+        price:
+          type: number
+        inStock:
+          type: boolean
+
+      
+    
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+
+paths:
+
+  /user/register:
+    post:
+      summary: Register a new User
+      description: Register a new User in the database
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+
+      responses:
+        201:
+          description: User created succesfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  _id:
+                    type: string
+
+  /user/login:
+    post:
+      summary: Login a User
+      description: Login a User in order to get JWT token (auth-token)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      
+      responses:
+        200:
+          description: User logged in succesfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  data:
+                    type: string
+
+
+  /wine:
+    get:
+      summary: Retrieves a list of Wine
+      description: Retrieves a list of wine as JSON objects.
+      responses:
+        200:
+          description: A list of Wine JSON objects in an array.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Wine"
+    
+    post:
+      summary: Create a new Wine
+      description: Create a new Wine
+      security:
+        - ApiKeyAuth: []      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Wine"
+
+      responses:
+        201:
+          description: Wine created succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Wine"
+  
+  /wine/{id}:
+    get:
+      summary: Specific Wine
+      description: Retrieves a specific Wine based on it id.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: MongoDB id
+          schema:
+            type: string
+      responses:
+        200:
+          description: A Wine in the format of a JSON object.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Wine"
+   
+    put:
+      summary: Updates a specific Wine
+      description: Updates a specific Wine based on it id
+      security:
+        - ApiKeyAuth: []            
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: MongoDB id
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Wine"
+
+      responses:
+        201:
+          description: Wine updated succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Wine"
+
+    delete:
+      summary: Deletes a specific Wine
+      description: Deletes a specific Wine based on it id
+      security:
+        - ApiKeyAuth: []            
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: MongoDB id
+          schema:
+            type: string      
+
+      responses:
+        201:
+          description: Wine deleted succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Wine"
+
+  
